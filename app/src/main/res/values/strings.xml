@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TatvasoftAssignment11</string>
+
+    <string name="audio_icon">Audio Icon</string>
+    <string name="contact_icon">Contact Icon</string>
+
+    <string name="tab_title_contact">Contacts</string>
+    <string name="tab_title_audio">Audio Files</string>
+
+    <string name="alert_title">Permissions required</string>
+    <string name="alert_message">External storage and contacts access are required for this app. Please allow access to move further</string>
+    <string name="ok_button">OK</string>
+
+    <string name="deny_toast">Go to settings and enable permissions</string>
+</resources>
