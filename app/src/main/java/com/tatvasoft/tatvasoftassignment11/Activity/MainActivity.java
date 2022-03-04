@@ -35,10 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        viewPagerAdapter.addFragment(new AudioFilesFragment(this), getString(R.string.tab_title_audio));
         viewPagerAdapter.addFragment(new ContactsFragment(this), getString(R.string.tab_title_contact));
-
+        viewPagerAdapter.addFragment(new AudioFilesFragment(this), getString(R.string.tab_title_audio));
         binding.viewPager.setAdapter(viewPagerAdapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
 

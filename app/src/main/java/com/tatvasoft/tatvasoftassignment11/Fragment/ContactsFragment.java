@@ -14,10 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.tatvasoft.tatvasoftassignment11.Adapter.ContactAdapter;
+import com.tatvasoft.tatvasoftassignment11.AsyncTaskClass.ContactAsyncTask;
 import com.tatvasoft.tatvasoftassignment11.databinding.FragmentContactsBinding;
 
 public class ContactsFragment extends Fragment {
-    FragmentContactsBinding binding;
+    public static FragmentContactsBinding binding;
     Context context;
 
     public ContactsFragment(Context context) {
@@ -54,8 +55,8 @@ public class ContactsFragment extends Fragment {
     }
 
     public void getContactList() {
-        binding.contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.contactsRecyclerView.setAdapter(new ContactAdapter(context));
+        ContactAsyncTask contactAsyncTask = new ContactAsyncTask(context);
+        contactAsyncTask.execute();
     }
 
 }
