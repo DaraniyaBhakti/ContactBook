@@ -11,14 +11,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.tatvasoft.tatvasoftassignment11.Adapter.ContactAdapter;
 import com.tatvasoft.tatvasoftassignment11.AsyncTaskClass.ContactAsyncTask;
 import com.tatvasoft.tatvasoftassignment11.databinding.FragmentContactsBinding;
 
 public class ContactsFragment extends Fragment {
-    public static FragmentContactsBinding binding;
+    public static FragmentContactsBinding fragmentContactsBinding;
     Context context;
 
     public ContactsFragment(Context context) {
@@ -34,8 +32,8 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentContactsBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        fragmentContactsBinding = FragmentContactsBinding.inflate(inflater, container, false);
+        return fragmentContactsBinding.getRoot();
     }
 
     @Override

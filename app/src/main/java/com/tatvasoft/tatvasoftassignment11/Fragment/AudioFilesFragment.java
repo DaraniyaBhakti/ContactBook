@@ -20,7 +20,7 @@ import com.tatvasoft.tatvasoftassignment11.databinding.FragmentAudioFilesBinding
 public class AudioFilesFragment extends Fragment {
 
     Context context;
-    FragmentAudioFilesBinding binding;
+    public static FragmentAudioFilesBinding fragmentAudioFilesBinding;
 
     public AudioFilesFragment(Context context) {
         this.context = context;
@@ -35,8 +35,8 @@ public class AudioFilesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentAudioFilesBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        fragmentAudioFilesBinding = FragmentAudioFilesBinding.inflate(inflater, container, false);
+        return fragmentAudioFilesBinding.getRoot();
     }
 
     @Override
@@ -56,8 +56,8 @@ public class AudioFilesFragment extends Fragment {
     }
 
     public void getAudioFiles() {
-        binding.audioRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.audioRecyclerView.setAdapter(new AudioAdapter(context));
+        fragmentAudioFilesBinding.audioRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentAudioFilesBinding.audioRecyclerView.setAdapter(new AudioAdapter(context));
     }
 }
 

@@ -17,7 +17,7 @@ import com.tatvasoft.tatvasoftassignment11.R;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.tatvasoft.tatvasoftassignment11.Fragment.ContactsFragment.binding;
+import static com.tatvasoft.tatvasoftassignment11.Fragment.ContactsFragment.fragmentContactsBinding;
 
 public class ContactAsyncTask extends AsyncTask<Void, Void, ArrayList> {
 
@@ -83,9 +83,9 @@ public class ContactAsyncTask extends AsyncTask<Void, Void, ArrayList> {
     protected void onPostExecute(ArrayList arrayList) {
         super.onPostExecute(arrayList);
         progressDialog.dismiss();
-        binding.contactsRecyclerView.setLayoutManager(new LinearLayoutManager(contextRef.get()));
+        fragmentContactsBinding.contactsRecyclerView.setLayoutManager(new LinearLayoutManager(contextRef.get()));
         contactAdapter = new ContactAdapter(arrayList, contextRef.get());
-        binding.contactsRecyclerView.setAdapter(contactAdapter);
+        fragmentContactsBinding.contactsRecyclerView.setAdapter(contactAdapter);
 
     }
 }

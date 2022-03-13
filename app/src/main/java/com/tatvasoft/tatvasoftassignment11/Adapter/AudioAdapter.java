@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tatvasoft.tatvasoftassignment11.R;
+import com.tatvasoft.tatvasoftassignment11.databinding.AudioItemRowBinding;
 
 import java.util.ArrayList;
 
@@ -38,19 +39,19 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-
+    AudioItemRowBinding binding;
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.audio_item_row, parent, false);
-        return new ViewHolder(view);
+        binding = AudioItemRowBinding.inflate(inflater,parent,false);
+        return new ViewHolder(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(@NonNull AudioAdapter.ViewHolder holder, int position) {
-        holder.tvAudioName.setText(arrayList.get(position));
-
+        binding.tvAudioName.setText(arrayList.get(position));
     }
 
     @Override
@@ -59,11 +60,8 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvAudioName;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvAudioName = itemView.findViewById(R.id.tvAudioName);
         }
     }
 }

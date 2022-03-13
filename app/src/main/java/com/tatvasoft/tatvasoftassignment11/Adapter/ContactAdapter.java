@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tatvasoft.tatvasoftassignment11.Model.ContactsModel;
 import com.tatvasoft.tatvasoftassignment11.R;
+import com.tatvasoft.tatvasoftassignment11.databinding.ContactItemRowBinding;
 
 import java.util.ArrayList;
 
@@ -22,17 +23,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         this.arrayList = arrayList;
         this.context = context;
     }
+    ContactItemRowBinding binding;
     @NonNull
     public ContactAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.contact_item_row, parent, false);
-        return new ViewHolder(view);
+        binding = ContactItemRowBinding.inflate(inflater,parent,false);
+        return new ViewHolder(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactAdapter.ViewHolder holder, int position) {
-        holder.tvContactName.setText(arrayList.get(position).getContactName());
-        holder.tvContactNumber.setText(arrayList.get(position).getContactNumber());
+        binding.tvContactName.setText(arrayList.get(position).getContactName());
+        binding.tvContactNumber.setText(arrayList.get(position).getContactNumber());
 
     }
 
@@ -42,11 +44,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvContactName, tvContactNumber;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvContactName = itemView.findViewById(R.id.tvContactName);
-            tvContactNumber = itemView.findViewById(R.id.tvContactNumber);
         }
     }
 }
