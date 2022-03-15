@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -83,6 +84,7 @@ public class ContactAsyncTask extends AsyncTask<Void, Void, ArrayList> {
     protected void onPostExecute(ArrayList arrayList) {
         super.onPostExecute(arrayList);
         progressDialog.dismiss();
+        fragmentContactsBinding.grantPermissionTextContact.setVisibility(View.GONE);
         fragmentContactsBinding.contactsRecyclerView.setLayoutManager(new LinearLayoutManager(contextRef.get()));
         contactAdapter = new ContactAdapter(arrayList, contextRef.get());
         fragmentContactsBinding.contactsRecyclerView.setAdapter(contactAdapter);

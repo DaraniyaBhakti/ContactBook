@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(R.string.ok_button, okListener)
+                .setCancelable(false)
                 .create()
                 .show();
     }

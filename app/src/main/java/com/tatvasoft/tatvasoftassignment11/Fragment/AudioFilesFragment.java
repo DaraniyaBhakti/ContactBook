@@ -58,6 +58,8 @@ public class AudioFilesFragment extends Fragment {
     public void getAudioFiles() {
         fragmentAudioFilesBinding.audioRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentAudioFilesBinding.audioRecyclerView.setAdapter(new AudioAdapter(context));
+
+        fragmentAudioFilesBinding.grantPermissionText.setVisibility(View.GONE);
     }
 }
 
