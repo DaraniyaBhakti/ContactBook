@@ -84,10 +84,9 @@ public class ContactAsyncTask extends AsyncTask<Void, Void, ArrayList> {
     protected void onPostExecute(ArrayList arrayList) {
         super.onPostExecute(arrayList);
         progressDialog.dismiss();
-        fragmentContactsBinding.grantPermissionTextContact.setVisibility(View.GONE);
         fragmentContactsBinding.contactsRecyclerView.setLayoutManager(new LinearLayoutManager(contextRef.get()));
         contactAdapter = new ContactAdapter(arrayList, contextRef.get());
         fragmentContactsBinding.contactsRecyclerView.setAdapter(contactAdapter);
-
+        fragmentContactsBinding.grantPermissionTextContact.setVisibility(View.GONE);
     }
 }

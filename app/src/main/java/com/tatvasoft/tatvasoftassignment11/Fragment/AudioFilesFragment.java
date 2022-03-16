@@ -1,10 +1,14 @@
 package com.tatvasoft.tatvasoftassignment11.Fragment;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tatvasoft.tatvasoftassignment11.Adapter.AudioAdapter;
 import com.tatvasoft.tatvasoftassignment11.databinding.FragmentAudioFilesBinding;
 
+import java.util.ArrayList;
+
 public class AudioFilesFragment extends Fragment {
 
     Context context;
+    ArrayList<String> arrayList = new ArrayList<>();
     public static FragmentAudioFilesBinding fragmentAudioFilesBinding;
 
     public AudioFilesFragment(Context context) {
@@ -36,6 +43,7 @@ public class AudioFilesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentAudioFilesBinding = FragmentAudioFilesBinding.inflate(inflater, container, false);
+
         return fragmentAudioFilesBinding.getRoot();
     }
 
@@ -56,8 +64,20 @@ public class AudioFilesFragment extends Fragment {
     }
 
     public void getAudioFiles() {
+        ContentResolver audioResolver = requireContext().getContentResolver();
+        Uri audioUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor audioCursor = audioResolver.query(audioUri, null, null, null, null);
+        if (audioCursor != null && audioCursor.moveToNext()) {
+            int titleColumn = audioCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            do {
+                String title = audioCursor.getString(titleColumn);
+                arrayList.add(title);
+            } while (audioCursor.moveToNext());
+        }
+        assert audioCursor != null;
+        audioCursor.close();
         fragmentAudioFilesBinding.audioRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentAudioFilesBinding.audioRecyclerView.setAdapter(new AudioAdapter(context));
+        fragmentAudioFilesBinding.audioRecyclerView.setAdapter(new AudioAdapter(arrayList));
 
         fragmentAudioFilesBinding.grantPermissionText.setVisibility(View.GONE);
     }
