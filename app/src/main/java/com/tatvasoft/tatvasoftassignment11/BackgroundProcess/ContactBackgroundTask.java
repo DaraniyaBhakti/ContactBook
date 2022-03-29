@@ -1,11 +1,11 @@
-package com.tatvasoft.tatvasoftassignment11.AsyncTaskClass;
+package com.tatvasoft.tatvasoftassignment11.BackgroundProcess;
+
+import static com.tatvasoft.tatvasoftassignment11.Fragment.ContactsFragment.fragmentContactsBinding;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.view.View;
 
@@ -13,38 +13,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.tatvasoft.tatvasoftassignment11.Adapter.ContactAdapter;
 import com.tatvasoft.tatvasoftassignment11.Model.ContactsModel;
-import com.tatvasoft.tatvasoftassignment11.R;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.tatvasoft.tatvasoftassignment11.Fragment.ContactsFragment.fragmentContactsBinding;
-
-public class ContactAsyncTask extends AsyncTask<Void, Void, ArrayList> {
-
-    private final WeakReference<Context> contextRef;
-    ProgressDialog progressDialog;
+public class ContactBackgroundTask extends BackgroundTask{
 
     ArrayList<ContactsModel> contactsModelArrayList = new ArrayList<>();
     ContactAdapter contactAdapter;
+    Context context;
 
-    public ContactAsyncTask(Context context) {
-        contextRef = new WeakReference<>(context);
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        progressDialog = new ProgressDialog(contextRef.get());
-        progressDialog.setTitle(contextRef.get().getString(R.string.progress_dialog_title));
-        progressDialog.setMessage(contextRef.get().getString(R.string.progress_dialog_message));
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
+    public ContactBackgroundTask(Context context) {
+        this.context = context;
     }
 
     @SuppressLint("Range")
     @Override
-    protected ArrayList doInBackground(Void... voids) {
+    protected ArrayList<ContactsModel> doInBackground() {
+        super.doInBackground();
         //Initialize Uri
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
 
@@ -52,7 +37,7 @@ public class ContactAsyncTask extends AsyncTask<Void, Void, ArrayList> {
         String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
 
         //Initialize cursor
-        Cursor cursor = contextRef.get().getContentResolver().query(
+        Cursor cursor = context.getContentResolver().query(
                 uri, null, null, null, sort
         );
         if (cursor.getCount() > 0) {
@@ -62,7 +47,7 @@ public class ContactAsyncTask extends AsyncTask<Void, Void, ArrayList> {
                 Uri uriPhone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
                 String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =?";
 
-                Cursor phoneCursor = contextRef.get().getContentResolver().query(
+                Cursor phoneCursor = context.getContentResolver().query(
                         uriPhone, null, selection, new String[]{id}, null
                 );
                 if (phoneCursor.moveToNext()) {
@@ -81,11 +66,10 @@ public class ContactAsyncTask extends AsyncTask<Void, Void, ArrayList> {
     }
 
     @Override
-    protected void onPostExecute(ArrayList arrayList) {
+    protected void onPostExecute(ArrayList<ContactsModel> arrayList) {
         super.onPostExecute(arrayList);
-        progressDialog.dismiss();
-        fragmentContactsBinding.contactsRecyclerView.setLayoutManager(new LinearLayoutManager(contextRef.get()));
-        contactAdapter = new ContactAdapter(arrayList, contextRef.get());
+        fragmentContactsBinding.contactsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        contactAdapter = new ContactAdapter(arrayList, context);
         fragmentContactsBinding.contactsRecyclerView.setAdapter(contactAdapter);
         fragmentContactsBinding.grantPermissionTextContact.setVisibility(View.GONE);
     }

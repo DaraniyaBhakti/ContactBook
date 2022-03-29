@@ -10,7 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.tatvasoft.tatvasoftassignment11.Adapter.ViewPagerAdapter;
 import com.tatvasoft.tatvasoftassignment11.Fragment.AudioFilesFragment;
 import com.tatvasoft.tatvasoftassignment11.Fragment.ContactsFragment;
@@ -30,22 +33,25 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 10;
     ContactsFragment contactsFragment;
     AudioFilesFragment audioFilesFragment;
-
+    private final String[] titles = new String[]{"Audio Files","Contacts"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new ContactsFragment(this), getString(R.string.tab_title_contact));
-        viewPagerAdapter.addFragment(new AudioFilesFragment(this), getString(R.string.tab_title_audio));
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPagerAdapter.addFragment(new ContactsFragment());
+        viewPagerAdapter.addFragment(new AudioFilesFragment());
         binding.viewPager.setAdapter(viewPagerAdapter);
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
+
+
+        binding.viewPager.setOffscreenPageLimit(2);
+        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(titles[position])).attach();
 
         if (checkAndRequestPermissions()) {
-            contactsFragment = new ContactsFragment(this);
-            audioFilesFragment = new AudioFilesFragment(this);
+            contactsFragment = new ContactsFragment();
+            audioFilesFragment = new AudioFilesFragment();
 
         }
     }
@@ -90,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 if (permissionHashMap.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                         && permissionHashMap.get(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
                     // process the normal flow
-                    audioFilesFragment = new AudioFilesFragment(this);
-                    contactsFragment = new ContactsFragment(this);
+                    audioFilesFragment = new AudioFilesFragment();
+                    contactsFragment = new ContactsFragment();
                     //else any one or both the permissions are not granted
                 } else {
                     //permission is denied---without checking never ask again---- so ask permission again explaining the usage of permission

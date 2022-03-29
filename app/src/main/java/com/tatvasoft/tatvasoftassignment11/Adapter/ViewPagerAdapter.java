@@ -1,42 +1,49 @@
 package com.tatvasoft.tatvasoftassignment11.Adapter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.tatvasoft.tatvasoftassignment11.Fragment.AudioFilesFragment;
+import com.tatvasoft.tatvasoftassignment11.Fragment.ContactsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentStateAdapter {
 
-    ArrayList<String> titleList = new ArrayList<>();
+    private ContactsFragment contactsFragment = null;
+    private AudioFilesFragment audioFilesFragment = null;
     List<Fragment> fragmentList = new ArrayList<>();
-
-    public void addFragment(Fragment fragment, String title) {
-        titleList.add(title);
-        fragmentList.add(fragment);
-    }
-
-    public ViewPagerAdapter(@NonNull FragmentManager fm) {
-        super(fm);
+    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-        return fragmentList.get(position);
+    public Fragment createFragment(int position) {
+
+        if (position == 0) {
+            if (audioFilesFragment == null) {
+                audioFilesFragment = new AudioFilesFragment();
+            }
+            return audioFilesFragment;
+        } else  {
+            if (contactsFragment == null) {
+                contactsFragment = new ContactsFragment();
+            }
+            return contactsFragment;
+        }
     }
 
     @Override
-    public int getCount() {
-        return fragmentList.size();
+    public int getItemCount() {
+        return 2;
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return titleList.get(position);
+
+    public void addFragment(Fragment fragment){
+        fragmentList.add(fragment);
     }
 }

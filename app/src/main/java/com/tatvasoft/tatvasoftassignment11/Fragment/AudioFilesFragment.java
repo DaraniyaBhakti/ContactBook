@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -25,12 +25,11 @@ import java.util.ArrayList;
 
 public class AudioFilesFragment extends Fragment {
 
-    Context context;
     ArrayList<String> arrayList = new ArrayList<>();
     public static FragmentAudioFilesBinding fragmentAudioFilesBinding;
 
-    public AudioFilesFragment(Context context) {
-        this.context = context;
+    public AudioFilesFragment() {
+
     }
 
     @Override
@@ -55,7 +54,7 @@ public class AudioFilesFragment extends Fragment {
 
     public void setAudioFiles() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 getAudioFiles();
             }
         } else {
